@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="brand">
+            <img id="appLogo" alt="logo" src="https://dummyimage.com/128x128/1f2a52/ffffff&text=SE" />
+            <div>
+                <h1 id="appTitle">Think Big Science Carnival 2025</h1>
+                <small id="appSubtitle" class="muted">Project Evaluation System</small>
+            </div>
+        </div>
+        <div id="userControls" aria-hidden="true"></div>
+    </header>
+
+    <div class="container">
+        <!-- Role Gate -->
+        <div id="roleGate" class="card">
+            <h2>Choose Portal</h2>
+            <p class="muted">Select your role to continue.</p>
+            <div class="toolbar" style="margin-top:12px">
+                <button class="btn" onclick="UI.show('adminLogin')">Admin Panel</button>
+                <button class="btn" onclick="UI.show('evaluatorLogin')">Evaluator Panel</button>
+            </div>
+        </div>
+
+        <!-- Admin Login -->
+        <div id="adminLogin" class="card hidden">
+            <h2>Admin Login</h2>
+            <div class="row">
+                <div class="col-6">
+                    <label>Admin Email</label>
+                    <input id="adminEmail" placeholder="admin@example.com" />
+                </div>
+                <div class="col-6">
+                    <label>Passcode</label>
+                    <input id="adminPass" type="password" placeholder="Enter admin passcode" />
+                </div>
+            </div>
+            <div class="toolbar" style="margin-top:12px">
+                <button class="btn" onclick="Auth.adminLogin()">Login</button>
+                <button class="btn secondary" onclick="UI.backToGate()">Back</button>
+            </div>
+            <div id="adminLoginMsg" class="hint"></div>
+            <p class="hint" style="margin-top:8px">Default passcode is <b>admin123</b>. Change it in Settings (and set
+                secure ADMIN_PASS in GAS Script Properties).</p>
+        </div>
+
+        <!-- Evaluator Login -->
+        <div id="evaluatorLogin" class="card hidden">
+            <h2>Evaluator Login</h2>
+            <div class="row">
+                <div class="col-6">
+                    <label>Email</label>
+                    <input id="evalEmail" placeholder="you@school.org" />
+                </div>
+                <div class="col-6">
+                    <label>Access Code</label>
+                    <input id="evalCode" placeholder="e.g. 742915" />
+                </div>
+            </div>
+            <div class="toolbar" style="margin-top:12px">
+                <button class="btn" onclick="Auth.evaluatorLogin()">Login</button>
+                <button class="btn secondary" onclick="UI.backToGate()">Back</button>
+            </div>
+            <div id="evalLoginMsg" class="hint"></div>
+        </div>
+
+        <!-- Admin App -->
+        <div id="adminApp" class="card hidden">
+            <div class="tabs mobile-scroll" id="adminTabs"></div>
+            <div id="adminView"></div>
+        </div>
+
+        <!-- Evaluator App -->
+        <div id="evalApp" class="hidden">
+            <div id="evalTop" class="card flex-between">
+                <div style="flex:1">
+                    <h3 id="welcomeTitle">Welcome to Think Big Science Carnival 2025</h3>
+                    <p id="welcomeBody" class="muted">Please review the instructions and enter your basic details to
+                        begin.</p>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+                    <div id="evalBadge" class="userBadge hidden"></div>
+                    <button class="headerLogout hidden" id="evalLogoutBtn"
+                        onclick="Auth.logoutEvaluator()">Logout</button>
+                </div>
+            </div>
+
+            <div id="evalWelcome" class="card">
+                <p class="muted">Please review the instructions and enter your basic details to begin.</p>
+                <div style="margin-top:12px" class="toolbar">
+                    <button class="btn" onclick="Eval.showProfileForm()">Enter Your Basic Details</button>
+                </div>
+            </div>
+
+            <!-- Profile Form -->
+            <div id="evalProfile" class="card hidden">
+                <h3>Your Details</h3>
+                <div class="row">
+                    <div class="col-6">
+                        <label>Full Name *</label>
+                        <input id="profName" />
+                    </div>
+                    <div class="col-6">
+                        <label>Expertise</label>
+                        <input id="profExpertise" placeholder="e.g. Robotics, Biology" />
+                    </div>
+                    <div class="col-12">
+                        <label>Notes (optional)</label>
+                        <textarea id="profNotes" placeholder="Any additional information"></textarea>
+                    </div>
+                </div>
+                <div class="toolbar" style="margin-top:12px">
+                    <button class="btn" onclick="Eval.saveProfile()">Save & Continue</button>
+                    <button class="btn secondary" onclick="UI.show('evalWelcome')">Cancel</button>
+                </div>
+                <div id="profMsg" class="hint"></div>
+            </div>
+
+            <!-- Assigned Projects -->
+            <div id="evalProjects" class="card hidden">
+                <h2>Your Assigned Projects</h2>
+                <div class="hint">Select projects to evaluate. When ready click "Proceed to Finalize".</div>
+
+                <div id="progressArea" class="progressWrap">
+                    <div class="progressBar">
+                        <div id="progressFill" class="progressFill" style="width:0%"></div>
+                    </div>
+                    <div id="progressText" class="progressText">
+                        <span id="progressCount">0 / 0 completed (0%)</span>
+                        <span id="leftCount" class="small">0 left to evaluate</span>
+                    </div>
+                </div>
+
+                <div class="table-wrapper" style="margin-top:12px">
+                    <div id="evalProjectTable"></div>
+                </div>
+
+                <div id="evalToolbar" style="margin-top:12px" class="toolbar"></div>
+            </div>
+
+            <div id="modalContainer"></div>
+        </div>
+    </div>
+    <script src="soring.js"></script>
+</body>
+
+</html>
